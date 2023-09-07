@@ -111,32 +111,32 @@ def tick_game_scene args
 
   args.state.player[:cooldown] -= 1
   if args.inputs.keyboard.key_held.space && args.state.player[:cooldown] <= 0 && args.state.player[:alive]
-    args.state.player_bullets_1 << {x: args.state.player[:x] + 16, y: args.state.player[:y] + 38, w: 6, h: 13, path: 'sprites/playerbullet.png', dx: 0, dy: 8}.sprite!
-    args.state.player_bullets_2 << {x: args.state.player[:x] + 32, y: args.state.player[:y] + 38, w: 6, h: 13, path: 'sprites/playerbullet.png', dx: 0, dy: 8}.sprite!
+    args.state.player_bullets_1 << {x: args.state.player[:x] + 16, y: args.state.player[:y] + 38, w: 6, h: 12, path: 'sprites/playerbullet.png', dx: 0, dy: 8}.sprite!
+    args.state.player_bullets_2 << {x: args.state.player[:x] + 32, y: args.state.player[:y] + 38, w: 6, h: 12, path: 'sprites/playerbullet.png', dx: 0, dy: 8}.sprite!
     args.state.player[:cooldown] = 10 + 1
   end
   args.state.enemies_small_left.each do |enemy|
     if Math.rand < 0.004 + 0.004 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 13, path: 'sprites/bullet1.png', dx: 0, dy: -3}.sprite!
+      args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
   end
   args.state.enemies_small_right.each do |enemy|
     if Math.rand < 0.004 + 0.004 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 13, path: 'sprites/bullet1.png', dx: 0, dy: -3}.sprite!
+      args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
   end
   args.state.enemies_medium_center.each do |enemy|
     if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 21, y: enemy[:y] - 8, w: 6, h: 13, path: 'sprites/bullet1.png', dx: 0, dy: -3}.sprite!
+      args.state.enemy_bullets << {x: enemy[:x] + 21, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
     if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 48, y: enemy[:y] - 8, w: 6, h: 13, path: 'sprites/bullet1.png', dx: 0, dy: -3}.sprite!
+      args.state.enemy_bullets << {x: enemy[:x] + 48, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
     if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 63, y: enemy[:y] - 8, w: 6, h: 13, path: 'sprites/bullet1.png', dx: 0, dy: -3}.sprite!
+      args.state.enemy_bullets << {x: enemy[:x] + 63, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
     if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 90, y: enemy[:y] - 8, w: 6, h: 13, path: 'sprites/bullet1.png', dx: 0, dy: -3}.sprite!
+      args.state.enemy_bullets << {x: enemy[:x] + 90, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
   end
 
