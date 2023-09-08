@@ -2,6 +2,9 @@ require 'app/collision_detection.rb'
 require 'app/update_enemy.rb'
 require 'app/make_enemies.rb'
 require 'app/update_animations.rb'
+require 'app/player_input.rb'
+require 'app/render.rb'
+require 'app/defaults.rb'
 
 def tick args
   args.state.current_scene ||= :title_scene
@@ -41,22 +44,7 @@ def tick_title_scene args
 end
 
 def tick_game_scene args
-  args.state.explosions     ||= []
-  args.state.explosions_small         ||=[]
-  args.state.player_exhaust  ||=[]
-  args.state.enemies_small_left        ||= []
-  args.state.enemies_small_right        ||= []
-  args.state.enemies_medium_center        ||= []
-  args.state.score          ||= 0
-  args.state.player         ||= {x: 620, y: 80, w: 63, h: 51, path: 'sprites/playerplane1.png', angle: 0, cooldown: 0, alive: true}
-  args.state.player_collision_wing ||= {x: 620, y: 111, w: 63, h: 13, path: 'sprites/playerplanecollisionwing.png', angle: 0}
-  args.state.player_collision_tail ||= {x: 637, y: 82, w: 30, h: 6, path: 'sprites/playerplanecollisiontail.png', angle: 0}
-  args.state.enemy_bullets  ||= []
-  args.state.player_bullets_1 ||= []
-  args.state.player_bullets_2 ||= []
-  args.state.time_seconds   ||= 0
-  args.state.time_minutes   ||= 0
-  args.state.time_frame     ||= 0
+  defaults args
 
   args.state.time_frame += 1
 
@@ -82,103 +70,28 @@ def tick_game_scene args
     end
   end
 
-  update_explosions args
-  update_enemy_positions args
+  player_input args
 
-  # Handle user input.
-  if args.inputs.left && args.state.player[:x] > (250 + 5)
-    args.state.player[:x] -= 5
-    args.state.player_collision_wing[:x] -= 5
-    args.state.player_collision_tail[:x] -= 5
-  end
-  if args.inputs.right && args.state.player[:x] < (1280 - args.state.player[:w] - 250 - 5)
-    args.state.player[:x] += 5
-    args.state.player_collision_wing[:x] += 5
-    args.state.player_collision_tail[:x] += 5
-  end
-  if args.inputs.up && args.state.player[:y] < (720 - args.state.player[:h] - 0 - 5)
-    args.state.player[:y] += 5
-    args.state.player_collision_wing[:y] += 5
-    args.state.player_collision_tail[:y] += 5
-  end
-  if args.inputs.down && args.state.player[:y] > (0 + 5)
-    args.state.player[:y] -= 5
-    args.state.player_collision_wing[:y] -= 5
-    args.state.player_collision_tail[:y] -= 5
-  end
+  update_explosions args
+
+  update_enemy_positions args
 
   collision_detection args
 
-  args.state.player[:cooldown] -= 1
-  if args.inputs.keyboard.key_held.space && args.state.player[:cooldown] <= 0 && args.state.player[:alive]
-    args.state.player_bullets_1 << {x: args.state.player[:x] + 16, y: args.state.player[:y] + 38, w: 6, h: 12, path: 'sprites/playerbullet.png', dx: 0, dy: 8}.sprite!
-    args.state.player_bullets_2 << {x: args.state.player[:x] + 32, y: args.state.player[:y] + 38, w: 6, h: 12, path: 'sprites/playerbullet.png', dx: 0, dy: 8}.sprite!
-    args.state.player[:cooldown] = 10 + 1
-  end
-  args.state.enemies_small_left.each do |enemy|
-    if Math.rand < 0.004 + 0.004 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
-    end
-  end
-  args.state.enemies_small_right.each do |enemy|
-    if Math.rand < 0.004 + 0.004 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
-    end
-  end
-  args.state.enemies_medium_center.each do |enemy|
-    if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 21, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
-    end
-    if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 48, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
-    end
-    if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 63, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
-    end
-    if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 90, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
-    end
-  end
+  update_enemy_fire args
 
-  args.outputs.background_color = [0, 0, 0]
-  args.outputs.primitives << args.state.enemies_small_left.map do |enemy|
-    [enemy[:x], enemy[:y], 32, 32, enemy[:path], -180].sprite
-  end
-  args.outputs.primitives << args.state.enemies_small_right.map do |enemy|
-    [enemy[:x], enemy[:y], 32, 32, enemy[:path], -180].sprite
-  end
-  args.outputs.primitives << args.state.enemies_medium_center.map do |enemy|
-    [enemy[:x], enemy[:y], 128, 24, enemy[:path], -0].sprite
-  end
-  args.outputs.primitives << args.state.player if args.state.player[:alive]
-  args.outputs.primitives << args.state.player_collision_wing if args.state.player[:alive]
-  args.outputs.primitives << args.state.player_collision_tail if args.state.player[:alive]
-  args.outputs.primitives << args.state.explosions
-  args.outputs.primitives << args.state.explosions_small
-  args.outputs.primitives << args.state.player_bullets_1
-  args.outputs.primitives << args.state.player_bullets_2
-  args.outputs.primitives << args.state.enemy_bullets
-  args.outputs.primitives << [
-    [0, 0, 250, 720, 0, 0, 100].solid,
-    [1280 - 250, 0, 250, 720, 0, 0, 100].solid,
-    [1280 - 230, 50, "Score    #{(args.state.score).floor}", 3, 255, 255, 255, 255].label,
-    [20, 700, "Time #{args.state.time_minutes}:#{"%02d" % args.state.time_seconds}", 5, 255, 255, 255, 255].label,
-  ]
+  render args
 
-  args.outputs.sprites << update_exhaust_left(args) if args.state.player[:alive]
-  args.outputs.sprites << update_exhaust_right(args) if args.state.player[:alive]
   #args.outputs.debug << args.gtk.framerate_diagnostics_primitives
 
   #Respawn player if player dies.
   if (!args.state.player[:alive]) && args.state.enemy_bullets.empty? && args.state.explosions.empty? && args.state.enemies_small_left.all? && args.state.enemies_small_right.all?
-    #args.state.player[:alive] = true
     args.state.player[:x]     = 620
     args.state.player[:y]     = 80
     args.state.player_collision_wing[:x]     = 620
     args.state.player_collision_wing[:y]     = 111
     args.state.player_collision_tail[:x]     = 637
     args.state.player_collision_tail[:y]     = 82
-    #args.state.clear!
     args.state.next_scene = :game_over_scene
   end
 end
