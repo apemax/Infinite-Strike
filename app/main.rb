@@ -58,6 +58,16 @@ def tick_game_scene args
     end
   end
 
+  if args.inputs.keyboard.key_down.p and args.state.debug_enabled == false
+    args.state.debug_enabled = true
+  elsif args.inputs.keyboard.key_down.p and args.state.debug_enabled == true
+    args.state.debug_enabled = false
+  end
+
+  if args.state.debug_enabled
+    debug args
+  end
+
   if args.state.enemies_small_left.empty?
     args.state.enemies_small_left = make_enemies_small_left
   end
@@ -81,8 +91,6 @@ def tick_game_scene args
   update_enemy_fire args
 
   render args
-
-  #args.outputs.debug << args.gtk.framerate_diagnostics_primitives
 
   #Respawn player if player dies.
   if (!args.state.player[:alive]) && args.state.enemy_bullets.empty? && args.state.explosions.empty? && args.state.enemies_small_left.all? && args.state.enemies_small_right.all?
@@ -117,4 +125,8 @@ def tick_game_over_scene args
     args.state.player_bullets_1.clear
     args.state.player_bullets_2.clear
   end
+end
+
+def debug args
+  args.outputs.debug << args.gtk.framerate_diagnostics_primitives
 end
