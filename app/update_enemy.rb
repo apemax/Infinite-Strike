@@ -1,4 +1,4 @@
-def update_enemy_positions args
+def update_enemy_pattern_small_left args
   args.state.enemies_small_left.each do |enemy|
     enemy[:y] -= 2
     if enemy[:y] < 680
@@ -13,6 +13,9 @@ def update_enemy_positions args
       end
     end
   end
+end
+
+def update_enemy_pattern_small_right args
   args.state.enemies_small_right.each do |enemy|
     enemy[:y] -= 2
     if enemy[:y] < 680
@@ -27,6 +30,9 @@ def update_enemy_positions args
       end
     end
   end
+end
+
+def update_enemy_pattern_medium_center args
   args.state.enemies_medium_center.each do |enemy|
     enemy[:y] -= 1
 

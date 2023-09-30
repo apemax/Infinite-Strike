@@ -15,5 +15,7 @@ def defaults args
   args.state.time_seconds   ||= 0
   args.state.time_minutes   ||= 0
   args.state.time_frame     ||= 0
+  args.state.current_wave ||= 1
+  args.state.next_wave_condition ||= 0
   args.state.debug_enabled ||= false
 end

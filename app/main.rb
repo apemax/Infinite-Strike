@@ -68,23 +68,44 @@ def tick_game_scene args
     debug args
   end
 
-  if args.state.enemies_small_left.empty?
-    args.state.enemies_small_left = make_enemies_small_left
+  if args.state.current_wave == 1 and args.state.next_wave_condition == 6
+    args.state.current_wave += 1
+    args.state.next_wave_condition = 0
   end
-  if args.state.enemies_small_right.empty?
-    args.state.enemies_small_right   = make_enemies_small_right
+
+  if args.state.current_wave == 1
+    if args.state.enemies_small_left.empty?
+      args.state.enemies_small_left = make_enemies_small_left
+      args.state.next_wave_condition += 1
+    end
+    if args.state.enemies_small_right.empty?
+      args.state.enemies_small_right   = make_enemies_small_right
+      args.state.next_wave_condition += 1
+    end
+
+    update_enemy_pattern_small_left args
+    update_enemy_pattern_small_right args
   end
-  if args.state.time_seconds >= 5
+
+  if args.state.current_wave == 2
+    if args.state.enemies_small_left.empty?
+      args.state.enemies_small_left = make_enemies_small_left
+    end
+    if args.state.enemies_small_right.empty?
+      args.state.enemies_small_right   = make_enemies_small_right
+    end
     if args.state.enemies_medium_center.empty?
       args.state.enemies_medium_center   = make_enemies_medium_center
     end
+
+    update_enemy_pattern_small_left args
+    update_enemy_pattern_small_right args
+    update_enemy_pattern_medium_center args
   end
 
   player_input args
 
   update_explosions args
-
-  update_enemy_positions args
 
   collision_detection args
 
@@ -129,4 +150,5 @@ end
 
 def debug args
   args.outputs.debug << args.gtk.framerate_diagnostics_primitives
+  args.outputs.labels << [10, 50, "Next Wave Condition: #{(args.state.next_wave_condition)}", 3, 255, 255, 255, 255].label
 end

@@ -20,8 +20,9 @@ def render args
   args.outputs.primitives << [
     [0, 0, 250, 720, 0, 0, 100].solid,
     [1280 - 250, 0, 250, 720, 0, 0, 100].solid,
-    [1280 - 230, 50, "Score    #{(args.state.score).floor}", 3, 255, 255, 255, 255].label,
+    [1280 - 230, 50, "Score:    #{(args.state.score).floor}", 3, 255, 255, 255, 255].label,
     [20, 700, "Time #{args.state.time_minutes}:#{"%02d" % args.state.time_seconds}", 5, 255, 255, 255, 255].label,
+    [1280 - 230, 80, "Wave:     #{(args.state.current_wave).floor}", 3, 255, 255, 255, 255].label,
   ]
 
   args.outputs.sprites << update_exhaust_left(args) if args.state.player[:alive]
