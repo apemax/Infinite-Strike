@@ -17,6 +17,16 @@ def make_enemies_small_right
   enemies_small_right += 1.times.map { |n| {x: 900, y: 1020, w: 32, h: 32, health: 20, path: 'sprites/enemyplane2.png'} }
   enemies_small_right
 end
+
+def make_enemies_small_center
+  enemies_small_left = []
+  enemies_small_left += 1.times.map { |n| {x: 600, y: 780, w: 32, h: 32, health: 30, path: 'sprites/enemyplane1.png', move: 'center'} }
+  enemies_small_left += 1.times.map { |n| {x: 600, y: 840, w: 32, h: 32, health: 20, path: 'sprites/enemyplane2.png', move: 'left'} }
+  enemies_small_left += 1.times.map { |n| {x: 600, y: 900, w: 32, h: 32, health: 20, path: 'sprites/enemyplane2.png', move: 'right'} }
+  enemies_small_left += 1.times.map { |n| {x: 600, y: 960, w: 32, h: 32, health: 20, path: 'sprites/enemyplane2.png', move: 'left'} }
+  enemies_small_left += 1.times.map { |n| {x: 600, y: 1020, w: 32, h: 32, health: 20, path: 'sprites/enemyplane2.png', move: 'right'} }
+  enemies_small_left
+end
   
 def make_enemies_medium_center
   enemies_medium_center = []

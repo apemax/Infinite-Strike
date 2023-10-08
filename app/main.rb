@@ -73,13 +73,18 @@ def tick_game_scene args
     args.state.next_wave_condition = 0
   end
 
+  if args.state.current_wave == 2 and args.state.next_wave_condition == 4
+    args.state.current_wave += 1
+    args.state.next_wave_condition = 0
+  end
+
   if args.state.current_wave == 1
     if args.state.enemies_small_left.empty?
       args.state.enemies_small_left = make_enemies_small_left
       args.state.next_wave_condition += 1
     end
     if args.state.enemies_small_right.empty?
-      args.state.enemies_small_right   = make_enemies_small_right
+      args.state.enemies_small_right = make_enemies_small_right
       args.state.next_wave_condition += 1
     end
 
@@ -92,15 +97,32 @@ def tick_game_scene args
       args.state.enemies_small_left = make_enemies_small_left
     end
     if args.state.enemies_small_right.empty?
-      args.state.enemies_small_right   = make_enemies_small_right
+      args.state.enemies_small_right = make_enemies_small_right
     end
     if args.state.enemies_medium_center.empty?
-      args.state.enemies_medium_center   = make_enemies_medium_center
+      args.state.enemies_medium_center = make_enemies_medium_center
+      args.state.next_wave_condition += 1
     end
 
     update_enemy_pattern_small_left args
     update_enemy_pattern_small_right args
     update_enemy_pattern_medium_center args
+  end
+
+  if args.state.current_wave == 3
+    if args.state.enemies_small_left.empty?
+      args.state.enemies_small_left = make_enemies_small_left
+    end
+    if args.state.enemies_small_right.empty?
+      args.state.enemies_small_right = make_enemies_small_right
+    end
+    if args.state.enemies_small_center.empty?
+      args.state.enemies_small_center = make_enemies_small_center
+    end
+
+    update_enemy_pattern_small_left args
+    update_enemy_pattern_small_right args
+    update_enemy_pattern_small_center args
   end
 
   player_input args
@@ -138,6 +160,7 @@ def tick_game_over_scene args
     args.state.explosions.clear
     args.state.enemies_small_left.clear
     args.state.enemies_small_right.clear
+    args.state.enemies_small_center.clear
     args.state.enemies_medium_center.clear
     args.state.enemy_bullets.clear
     args.state.score = 0
@@ -145,6 +168,8 @@ def tick_game_over_scene args
     args.state.time_minutes = 0
     args.state.player_bullets_1.clear
     args.state.player_bullets_2.clear
+    args.state.current_wave = 1
+    args.state.next_wave_condition = 0
   end
 end
 

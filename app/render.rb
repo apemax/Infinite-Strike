@@ -6,6 +6,9 @@ def render args
   args.outputs.primitives << args.state.enemies_small_right.map do |enemy|
     [enemy[:x], enemy[:y], 32, 32, enemy[:path], -180].sprite
   end
+  args.outputs.primitives << args.state.enemies_small_center.map do |enemy|
+    [enemy[:x], enemy[:y], 32, 32, enemy[:path], -180].sprite
+  end
   args.outputs.primitives << args.state.enemies_medium_center.map do |enemy|
     [enemy[:x], enemy[:y], 128, 24, enemy[:path], -0].sprite
   end

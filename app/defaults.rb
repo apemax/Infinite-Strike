@@ -4,6 +4,7 @@ def defaults args
   args.state.player_exhaust  ||=[]
   args.state.enemies_small_left        ||= []
   args.state.enemies_small_right        ||= []
+  args.state.enemies_small_center        ||= []
   args.state.enemies_medium_center        ||= []
   args.state.score          ||= 0
   args.state.player         ||= {x: 620, y: 80, w: 63, h: 51, path: 'sprites/playerplane1.png', angle: 0, cooldown: 0, alive: true}

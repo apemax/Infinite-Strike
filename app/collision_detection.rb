@@ -70,6 +70,26 @@ def collision_detection args
       false
     end
   end
+  args.state.enemies_small_center = args.state.enemies_small_center.reject do |enemy|
+    if args.state.player[:alive]
+      if enemy.intersect_rect? args.state.player_collision_wing
+        args.state.explosions << {x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
+        args.state.explosions << {x: args.state.player[:x] + 4, y: args.state.player[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
+        args.state.player[:alive] = false
+        true
+      end
+    end
+    if args.state.player[:alive]
+      if enemy.intersect_rect? args.state.player_collision_tail
+        args.state.explosions << {x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
+        args.state.explosions << {x: args.state.player[:x] + 4, y: args.state.player[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
+        args.state.player[:alive] = false
+        true
+      end
+    else
+      false
+    end
+  end
   args.state.enemies_medium_center = args.state.enemies_medium_center.reject do |enemy|
     if args.state.player[:alive]
       if enemy.intersect_rect? args.state.player_collision_wing
@@ -158,6 +178,40 @@ def collision_detection args
     end
   end
   args.state.enemies_small_right = args.state.enemies_small_right.reject do |enemy|
+    args.state.player_bullets_2.any? do |bullet|
+      if bullet.intersect_rect? enemy
+        enemy[:health] -= 10
+        bullet[:despawn] = true
+        args.state.explosions_small << {x: bullet[:x] + 4, y: bullet[:y] + 4, w: 8, h: 8, path: 'sprites/explosion-small-0.png', age: 0}
+        if enemy[:health] <= 0
+          args.state.explosions << {x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
+          bullet[:despawn] = true
+          args.state.score += 100
+          true
+        end
+      else
+        false
+      end
+    end
+  end
+  args.state.enemies_small_center = args.state.enemies_small_center.reject do |enemy|
+    args.state.player_bullets_1.any? do |bullet|
+      if bullet.intersect_rect? enemy
+        enemy[:health] -= 10
+        bullet[:despawn] = true
+        args.state.explosions_small << {x: bullet[:x] + 4, y: bullet[:y] + 4, w: 8, h: 8, path: 'sprites/explosion-small-0.png', age: 0}
+        if enemy[:health] <= 0
+          args.state.explosions << {x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
+          bullet[:despawn] = true
+          args.state.score += 100
+          true
+        end
+      else
+        false
+      end
+    end
+  end
+  args.state.enemies_small_center = args.state.enemies_small_center.reject do |enemy|
     args.state.player_bullets_2.any? do |bullet|
       if bullet.intersect_rect? enemy
         enemy[:health] -= 10
