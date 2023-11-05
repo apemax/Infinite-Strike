@@ -1,6 +1,7 @@
 def defaults args
   args.state.explosions     ||= []
   args.state.explosions_small         ||=[]
+  args.state.clouds ||=[]
   args.state.player_exhaust  ||=[]
   args.state.enemies_small_left        ||= []
   args.state.enemies_small_right        ||= []

@@ -1,5 +1,8 @@
 def render args
-  args.outputs.background_color = [0, 0, 0]
+  args.outputs.background_color = [0, 75, 150]
+  args.outputs.primitives << args.state.clouds.map do |cloud|
+    [cloud[:x], cloud[:y], cloud[:w], cloud[:h], cloud[:path], 0].sprite
+  end
   args.outputs.primitives << args.state.enemies_small_left.map do |enemy|
     [enemy[:x], enemy[:y], 32, 32, enemy[:path], -180].sprite
   end
@@ -30,4 +33,13 @@ def render args
 
   args.outputs.sprites << update_exhaust_left(args) if args.state.player[:alive]
   args.outputs.sprites << update_exhaust_right(args) if args.state.player[:alive]
+end
+
+def make_clouds
+  clouds = []
+  clouds += 6.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 32, h: 32, path: 'sprites/cloud1.png'} }
+  clouds += 6.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 64, h: 32, path: 'sprites/cloud2.png'} }
+  clouds += 3.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 128, h: 64, path: 'sprites/cloud3.png'} }
+  clouds += 3.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 256, h: 64, path: 'sprites/cloud4.png'} }
+  clouds
 end

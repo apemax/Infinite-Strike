@@ -125,6 +125,21 @@ def tick_game_scene args
     update_enemy_pattern_small_center args
   end
 
+  if args.state.clouds.empty?
+    args.state.clouds = make_clouds
+  end
+
+  args.state.clouds.each do |cloud|
+    cloud[:y] -= 0.5
+    args.state.clouds = args.state.clouds.reject do |cloud|
+      if cloud[:y] < -64
+        true
+      else
+        false
+      end
+    end
+  end
+
   player_input args
 
   update_explosions args
