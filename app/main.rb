@@ -18,6 +18,8 @@ def tick args
     tick_game_scene args
   when :game_over_scene
     tick_game_over_scene args
+  when :pause_scene
+    tick_pause_scene args
   end
 
   if args.state.current_scene != current_scene
@@ -58,10 +60,14 @@ def tick_game_scene args
     end
   end
 
-  if args.inputs.keyboard.key_down.p and args.state.debug_enabled == false
+  if args.inputs.keyboard.key_down.o and args.state.debug_enabled == false
     args.state.debug_enabled = true
-  elsif args.inputs.keyboard.key_down.p and args.state.debug_enabled == true
+  elsif args.inputs.keyboard.key_down.o and args.state.debug_enabled == true
     args.state.debug_enabled = false
+  end
+
+  if args.inputs.keyboard.key_down.p
+    args.state.next_scene = :pause_scene
   end
 
   if args.state.debug_enabled
@@ -185,6 +191,16 @@ def tick_game_over_scene args
     args.state.player_bullets_2.clear
     args.state.current_wave = 1
     args.state.next_wave_condition = 0
+  end
+end
+
+def tick_pause_scene args
+  args.outputs.labels << [580, 460, "Paused.", 10, 255, 255, 255, 255]
+
+  render args
+
+  if args.inputs.keyboard.key_down.p
+    args.state.next_scene = :game_scene
   end
 end
 
