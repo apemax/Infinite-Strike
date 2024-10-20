@@ -53,6 +53,7 @@ def tick_game_scene args
   if args.state.time_frame == 60
     args.state.time_frame = 0
     args.state.time_seconds += 1
+    args.state.spawn_timer += 1
 
     if args.state.time_seconds == 60
       args.state.time_seconds = 0
@@ -74,7 +75,7 @@ def tick_game_scene args
     debug args
   end
 
-  if args.state.current_wave == 1 and args.state.next_wave_condition == 6
+  if args.state.current_wave == 1 and args.state.next_wave_condition == 2
     args.state.current_wave += 1
     args.state.next_wave_condition = 0
   end
@@ -83,53 +84,42 @@ def tick_game_scene args
     args.state.current_wave += 1
     args.state.next_wave_condition = 0
   end
+  if args.state.current_wave == 0
+    args.state.enemies_small += make_enemies_small_left
+    args.state.enemies_small += make_enemies_small_right
+    args.state.current_wave = 1
+  end
 
   if args.state.current_wave == 1
-    if args.state.enemies_small_left.empty?
-      args.state.enemies_small_left = make_enemies_small_left
+    if args.state.spawn_timer == 5
+      args.state.enemies_small += make_enemies_small_left
+      args.state.enemies_small += make_enemies_small_right
       args.state.next_wave_condition += 1
+      args.state.spawn_timer = 0
     end
-    if args.state.enemies_small_right.empty?
-      args.state.enemies_small_right = make_enemies_small_right
-      args.state.next_wave_condition += 1
-    end
-
-    update_enemy_pattern_small_left args
-    update_enemy_pattern_small_right args
   end
 
   if args.state.current_wave == 2
-    if args.state.enemies_small_left.empty?
-      args.state.enemies_small_left = make_enemies_small_left
-    end
-    if args.state.enemies_small_right.empty?
-      args.state.enemies_small_right = make_enemies_small_right
-    end
-    if args.state.enemies_medium_center.empty?
-      args.state.enemies_medium_center = make_enemies_medium_center
+    if args.state.spawn_timer == 5
+      args.state.enemies_small += make_enemies_small_left
+      args.state.enemies_small += make_enemies_small_right
+      args.state.enemies_medium += make_enemies_medium_center
       args.state.next_wave_condition += 1
+      args.state.spawn_timer = 0
     end
-
-    update_enemy_pattern_small_left args
-    update_enemy_pattern_small_right args
-    update_enemy_pattern_medium_center args
   end
 
   if args.state.current_wave == 3
-    if args.state.enemies_small_left.empty?
-      args.state.enemies_small_left = make_enemies_small_left
+    if args.state.spawn_timer == 5
+      args.state.enemies_small += make_enemies_small_left
+      args.state.enemies_small += make_enemies_small_right
+      args.state.enemies_small += make_enemies_small_center
+      args.state.spawn_timer = 0
     end
-    if args.state.enemies_small_right.empty?
-      args.state.enemies_small_right = make_enemies_small_right
-    end
-    if args.state.enemies_small_center.empty?
-      args.state.enemies_small_center = make_enemies_small_center
-    end
-
-    update_enemy_pattern_small_left args
-    update_enemy_pattern_small_right args
-    update_enemy_pattern_small_center args
   end
+
+  update_enemy_pattern_small args
+  update_enemy_pattern_medium args
 
   if args.state.clouds.empty?
     args.state.clouds = make_clouds
@@ -157,7 +147,7 @@ def tick_game_scene args
   render args
 
   #Respawn player if player dies.
-  if (!args.state.player[:alive]) && args.state.enemy_bullets.empty? && args.state.explosions.empty? && args.state.enemies_small_left.all? && args.state.enemies_small_right.all?
+  if (!args.state.player[:alive]) && args.state.enemy_bullets.empty? && args.state.explosions.empty? && args.state.enemies_small.all?
     args.state.player[:x]     = 620
     args.state.player[:y]     = 80
     args.state.player_collision_wing[:x]     = 620
@@ -179,17 +169,15 @@ def tick_game_over_scene args
     args.state.next_scene = :game_scene
     args.state.player[:alive] = true
     args.state.explosions.clear
-    args.state.enemies_small_left.clear
-    args.state.enemies_small_right.clear
-    args.state.enemies_small_center.clear
-    args.state.enemies_medium_center.clear
+    args.state.enemies_small.clear
+    args.state.enemies_medium.clear
     args.state.enemy_bullets.clear
     args.state.score = 0
     args.state.time_seconds = 0
     args.state.time_minutes = 0
     args.state.player_bullets_1.clear
     args.state.player_bullets_2.clear
-    args.state.current_wave = 1
+    args.state.current_wave = 0
     args.state.next_wave_condition = 0
   end
 end

@@ -1,48 +1,22 @@
-def update_enemy_pattern_small_left args
-  args.state.enemies_small_left.each do |enemy|
+def update_enemy_pattern_small args
+  args.state.enemies_small.each do |enemy|
     enemy[:y] -= 2
-    if enemy[:y] < 680
+    if enemy[:y] < 680 and enemy[:spawn] == 'left'
       enemy[:x] += 1
     end
 
-    args.state.enemies_small_left = args.state.enemies_small_left.reject do |enemy|
-      if enemy[:y] < -64
-        true
-      else
-        false
-      end
-    end
-  end
-end
-
-def update_enemy_pattern_small_right args
-  args.state.enemies_small_right.each do |enemy|
-    enemy[:y] -= 2
-    if enemy[:y] < 680
+    if enemy[:y] < 680 and enemy[:spawn] == 'right'
       enemy[:x] -= 1
     end
 
-    args.state.enemies_small_right = args.state.enemies_small_right.reject do |enemy|
-      if enemy[:y] < -64
-        true
-      else
-        false
-      end
-    end
-  end
-end
-
-def update_enemy_pattern_small_center args
-  args.state.enemies_small_center.each do |enemy|
-    enemy[:y] -= 2
-    if enemy[:y] < 680 and enemy[:y] > 340 and enemy[:move] == 'left'
+    if enemy[:y] < 680 and enemy[:y] > 340 and enemy[:move] == 'left' and enemy[:spawn] == 'center'
       enemy[:x] -= 1
     end
-    if enemy[:y] < 680 and enemy[:y] > 340 and enemy[:move] == 'right'
+    if enemy[:y] < 680 and enemy[:y] > 340 and enemy[:move] == 'right' and enemy[:spawn] == 'center'
       enemy[:x] += 1
     end
 
-    args.state.enemies_small_center = args.state.enemies_small_center.reject do |enemy|
+    args.state.enemies_small = args.state.enemies_small.reject do |enemy|
       if enemy[:y] < -64
         true
       else
@@ -52,11 +26,11 @@ def update_enemy_pattern_small_center args
   end
 end
 
-def update_enemy_pattern_medium_center args
-  args.state.enemies_medium_center.each do |enemy|
+def update_enemy_pattern_medium args
+  args.state.enemies_medium.each do |enemy|
     enemy[:y] -= 1
 
-    args.state.enemies_medium_center = args.state.enemies_medium_center.reject do |enemy|
+    args.state.enemies_medium = args.state.enemies_medium.reject do |enemy|
       if enemy[:y] < -64
         true
       else
@@ -67,22 +41,12 @@ def update_enemy_pattern_medium_center args
 end
 
 def update_enemy_fire args
-  args.state.enemies_small_left.each do |enemy|
+  args.state.enemies_small.each do |enemy|
     if Math.rand < 0.004 + 0.004 && args.state.player[:alive]
       args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
   end
-  args.state.enemies_small_right.each do |enemy|
-    if Math.rand < 0.004 + 0.004 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
-    end
-  end
-  args.state.enemies_small_center.each do |enemy|
-    if Math.rand < 0.004 + 0.004 && args.state.player[:alive]
-      args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
-    end
-  end
-  args.state.enemies_medium_center.each do |enemy|
+  args.state.enemies_medium.each do |enemy|
     if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
       args.state.enemy_bullets << {x: enemy[:x] + 21, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
