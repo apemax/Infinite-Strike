@@ -90,7 +90,7 @@ def collision_detection args
   #Player bullet collision detection.
   args.state.enemies_small = args.state.enemies_small.reject do |enemy|
     args.state.player_bullets_1.any? do |bullet|
-      if bullet.intersect_rect? enemy
+      if bullet.intersect_rect? enemy and enemy[:y] < 720
         enemy[:health] -= 10
         bullet[:despawn] = true
         args.state.explosions_small << {x: bullet[:x] + 4, y: bullet[:y] + 4, w: 8, h: 8, path: 'sprites/explosion-small-0.png', age: 0}
@@ -106,7 +106,7 @@ def collision_detection args
   end
   args.state.enemies_small = args.state.enemies_small.reject do |enemy|
     args.state.player_bullets_2.any? do |bullet|
-      if bullet.intersect_rect? enemy
+      if bullet.intersect_rect? enemy and enemy[:y] < 720
         enemy[:health] -= 10
         bullet[:despawn] = true
         args.state.explosions_small << {x: bullet[:x] + 4, y: bullet[:y] + 4, w: 8, h: 8, path: 'sprites/explosion-small-0.png', age: 0}
@@ -122,7 +122,7 @@ def collision_detection args
   end
   args.state.enemies_medium = args.state.enemies_medium.reject do |enemy|
     args.state.player_bullets_1.any? do |bullet|
-      if bullet.intersect_rect? enemy
+      if bullet.intersect_rect? enemy and enemy[:y] < 720
         enemy[:health] -= 10
         bullet[:despawn] = true
         args.state.explosions_small << {x: bullet[:x] + 4, y: bullet[:y] + 4, w: 8, h: 8, path: 'sprites/explosion-small-0.png', age: 0}
@@ -138,7 +138,7 @@ def collision_detection args
   end
   args.state.enemies_medium = args.state.enemies_medium.reject do |enemy|
     args.state.player_bullets_2.any? do |bullet|
-      if bullet.intersect_rect? enemy
+      if bullet.intersect_rect? enemy and enemy[:y] < 720
         enemy[:health] -= 10
         bullet[:despawn] = true
         args.state.explosions_small << {x: bullet[:x] + 4, y: bullet[:y] + 4, w: 8, h: 8, path: 'sprites/explosion-small-0.png', age: 0}

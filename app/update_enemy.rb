@@ -3,17 +3,21 @@ def update_enemy_pattern_small args
     enemy[:y] -= 2
     if enemy[:y] < 680 and enemy[:spawn] == 'left'
       enemy[:x] += 1
+      enemy[:y] += 1
     end
 
     if enemy[:y] < 680 and enemy[:spawn] == 'right'
       enemy[:x] -= 1
+      enemy[:y] += 1
     end
 
     if enemy[:y] < 680 and enemy[:y] > 340 and enemy[:move] == 'left' and enemy[:spawn] == 'center'
       enemy[:x] -= 1
+      enemy[:y] += 1
     end
     if enemy[:y] < 680 and enemy[:y] > 340 and enemy[:move] == 'right' and enemy[:spawn] == 'center'
       enemy[:x] += 1
+      enemy[:y] += 1
     end
 
     args.state.enemies_small = args.state.enemies_small.reject do |enemy|
