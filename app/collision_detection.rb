@@ -30,7 +30,7 @@ def collision_detection args
   end
 
   # Player and enemy collision detection.
-  args.state.enemies_small = args.state.enemies_small.reject do |enemy|
+  args.state.enemy_fighters = args.state.enemy_fighters.reject do |enemy|
     if args.state.player[:alive]
       if enemy.intersect_rect? args.state.player_collision_wing
         args.state.explosions << {x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
@@ -50,7 +50,7 @@ def collision_detection args
       false
     end
   end
-  args.state.enemies_medium = args.state.enemies_medium.reject do |enemy|
+  args.state.enemy_light_gunship = args.state.enemy_light_gunship.reject do |enemy|
     if args.state.player[:alive]
       if enemy.intersect_rect? args.state.player_collision_wing
         args.state.explosions << {x: enemy[:x] + 4, y: enemy[:y] + 4, w: 32, h: 32, path: 'sprites/explosion-0.png', age: 0}
@@ -88,7 +88,7 @@ def collision_detection args
   end
 
   #Player bullet collision detection.
-  args.state.enemies_small = args.state.enemies_small.reject do |enemy|
+  args.state.enemy_fighters = args.state.enemy_fighters.reject do |enemy|
     args.state.player_bullets_1.any? do |bullet|
       if bullet.intersect_rect? enemy and enemy[:y] < 720
         enemy[:health] -= 10
@@ -104,7 +104,7 @@ def collision_detection args
       end
     end
   end
-  args.state.enemies_small = args.state.enemies_small.reject do |enemy|
+  args.state.enemy_fighters = args.state.enemy_fighters.reject do |enemy|
     args.state.player_bullets_2.any? do |bullet|
       if bullet.intersect_rect? enemy and enemy[:y] < 720
         enemy[:health] -= 10
@@ -120,7 +120,7 @@ def collision_detection args
       end
     end
   end
-  args.state.enemies_medium = args.state.enemies_medium.reject do |enemy|
+  args.state.enemy_light_gunship = args.state.enemy_light_gunship.reject do |enemy|
     args.state.player_bullets_1.any? do |bullet|
       if bullet.intersect_rect? enemy and enemy[:y] < 720
         enemy[:health] -= 10
@@ -136,7 +136,7 @@ def collision_detection args
       end
     end
   end
-  args.state.enemies_medium = args.state.enemies_medium.reject do |enemy|
+  args.state.enemy_light_gunship = args.state.enemy_light_gunship.reject do |enemy|
     args.state.player_bullets_2.any? do |bullet|
       if bullet.intersect_rect? enemy and enemy[:y] < 720
         enemy[:health] -= 10

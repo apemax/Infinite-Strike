@@ -3,8 +3,8 @@ def defaults args
   args.state.explosions_small ||=[]
   args.state.clouds ||=[]
   args.state.player_exhaust ||=[]
-  args.state.enemies_small ||= []
-  args.state.enemies_medium ||= []
+  args.state.enemy_fighters ||= []
+  args.state.enemy_light_gunship ||= []
   args.state.score ||= 0
   args.state.player ||= {x: 620, y: 80, w: 63, h: 51, path: 'sprites/playerplane1.png', angle: 0, cooldown: 0, alive: true}
   args.state.player_collision_wing ||= {x: 620, y: 111, w: 63, h: 13, path: 'sprites/playerplanecollisionwing.png', angle: 0}

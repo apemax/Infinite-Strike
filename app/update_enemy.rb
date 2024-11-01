@@ -1,5 +1,5 @@
 def update_enemy_pattern_small args
-  args.state.enemies_small.each do |enemy|
+  args.state.enemy_fighters.each do |enemy|
     enemy[:y] -= 2
     if enemy[:y] < 680 and enemy[:spawn] == 'left'
       enemy[:x] += 1
@@ -20,7 +20,7 @@ def update_enemy_pattern_small args
       enemy[:y] += 1
     end
 
-    args.state.enemies_small = args.state.enemies_small.reject do |enemy|
+    args.state.enemy_fighters = args.state.enemy_fighters.reject do |enemy|
       if enemy[:y] < -64
         true
       else
@@ -31,10 +31,10 @@ def update_enemy_pattern_small args
 end
 
 def update_enemy_pattern_medium args
-  args.state.enemies_medium.each do |enemy|
+  args.state.enemy_light_gunship.each do |enemy|
     enemy[:y] -= 1
 
-    args.state.enemies_medium = args.state.enemies_medium.reject do |enemy|
+    args.state.enemy_light_gunship = args.state.enemy_light_gunship.reject do |enemy|
       if enemy[:y] < -64
         true
       else
@@ -45,12 +45,12 @@ def update_enemy_pattern_medium args
 end
 
 def update_enemy_fire args
-  args.state.enemies_small.each do |enemy|
+  args.state.enemy_fighters.each do |enemy|
     if Math.rand < 0.004 + 0.004 && args.state.player[:alive]
       args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
   end
-  args.state.enemies_medium.each do |enemy|
+  args.state.enemy_light_gunship.each do |enemy|
     if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
       args.state.enemy_bullets << {x: enemy[:x] + 21, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end

@@ -3,10 +3,10 @@ def render args
   args.outputs.primitives << args.state.clouds.map do |cloud|
     [cloud[:x], cloud[:y], cloud[:w], cloud[:h], cloud[:path], 0].sprite
   end
-  args.outputs.primitives << args.state.enemies_small.map do |enemy|
+  args.outputs.primitives << args.state.enemy_fighters.map do |enemy|
     [enemy[:x], enemy[:y], 32, 32, enemy[:path], -180].sprite
   end
-  args.outputs.primitives << args.state.enemies_medium.map do |enemy|
+  args.outputs.primitives << args.state.enemy_light_gunship.map do |enemy|
     [enemy[:x], enemy[:y], 128, 24, enemy[:path], -0].sprite
   end
   args.outputs.primitives << args.state.player if args.state.player[:alive]

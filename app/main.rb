@@ -85,15 +85,15 @@ def tick_game_scene args
     args.state.next_wave_condition = 0
   end
   if args.state.current_wave == 0
-    args.state.enemies_small += make_enemies_small_left
-    args.state.enemies_small += make_enemies_small_right
+    args.state.enemy_fighters += make_enemy_fighters_left
+    args.state.enemy_fighters += make_enemy_fighters_right
     args.state.current_wave = 1
   end
 
   if args.state.current_wave == 1
     if args.state.spawn_timer == 5
-      args.state.enemies_small += make_enemies_small_left
-      args.state.enemies_small += make_enemies_small_right
+      args.state.enemy_fighters += make_enemy_fighters_left
+      args.state.enemy_fighters += make_enemy_fighters_right
       args.state.next_wave_condition += 1
       args.state.spawn_timer = 0
     end
@@ -101,9 +101,9 @@ def tick_game_scene args
 
   if args.state.current_wave == 2
     if args.state.spawn_timer == 5
-      args.state.enemies_small += make_enemies_small_left
-      args.state.enemies_small += make_enemies_small_right
-      args.state.enemies_medium += make_enemies_medium_center
+      args.state.enemy_fighters += make_enemy_fighters_left
+      args.state.enemy_fighters += make_enemy_fighters_right
+      args.state.enemy_light_gunship += make_enemy_light_gunship_center
       args.state.next_wave_condition += 1
       args.state.spawn_timer = 0
     end
@@ -111,9 +111,9 @@ def tick_game_scene args
 
   if args.state.current_wave == 3
     if args.state.spawn_timer == 5
-      args.state.enemies_small += make_enemies_small_left
-      args.state.enemies_small += make_enemies_small_right
-      args.state.enemies_small += make_enemies_small_center
+      args.state.enemy_fighters += make_enemy_fighters_left
+      args.state.enemy_fighters += make_enemy_fighters_right
+      args.state.enemy_fighters += make_enemy_fighters_center
       args.state.spawn_timer = 0
     end
   end
@@ -147,7 +147,7 @@ def tick_game_scene args
   render args
 
   #Respawn player if player dies.
-  if (!args.state.player[:alive]) && args.state.enemy_bullets.empty? && args.state.explosions.empty? && args.state.enemies_small.all?
+  if (!args.state.player[:alive]) && args.state.enemy_bullets.empty? && args.state.explosions.empty? && args.state.enemy_fighters.all?
     args.state.player[:x]     = 620
     args.state.player[:y]     = 80
     args.state.player_collision_wing[:x]     = 620
@@ -169,8 +169,8 @@ def tick_game_over_scene args
     args.state.next_scene = :game_scene
     args.state.player[:alive] = true
     args.state.explosions.clear
-    args.state.enemies_small.clear
-    args.state.enemies_medium.clear
+    args.state.enemy_fighters.clear
+    args.state.enemy_light_gunship.clear
     args.state.enemy_bullets.clear
     args.state.score = 0
     args.state.time_seconds = 0
