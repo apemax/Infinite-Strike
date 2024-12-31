@@ -28,9 +28,20 @@ def make_enemy_fighters_center
   enemy_fighters
 end
 
+def make_enemy_light_gunship_left
+  enemy_light_gunship = []
+  enemy_light_gunship += 1.times.map { |n| {x: 400, y: 780, w: 128, h: 24, health: 50, path: 'sprites/enemy_plane_medium_1.png'} }
+  enemy_light_gunship
+end
+
+def make_enemy_light_gunship_right
+  enemy_light_gunship = []
+  enemy_light_gunship += 1.times.map { |n| {x: 700, y: 780, w: 128, h: 24, health: 50, path: 'sprites/enemy_plane_medium_1.png'} }
+  enemy_light_gunship
+end
+
 def make_enemy_light_gunship_center
-  enemy_light_gunship_center = []
-  enemy_light_gunship_center += 1.times.map { |n| {x: 460, y: 780, w: 128, h: 24, health: 50, path: 'sprites/enemy_plane_medium_1.png'} }
-  enemy_light_gunship_center += 1.times.map { |n| {x: 660, y: 780, w: 128, h: 24, health: 50, path: 'sprites/enemy_plane_medium_1.png'} }
-  enemy_light_gunship_center
+  enemy_light_gunship = []
+  enemy_light_gunship += 1.times.map { |n| {x: 576, y: 780, w: 128, h: 24, health: 50, path: 'sprites/enemy_plane_medium_1.png'} }
+  enemy_light_gunship
 end
