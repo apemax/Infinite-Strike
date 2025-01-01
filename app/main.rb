@@ -92,8 +92,17 @@ def tick_game_scene args
 
   if args.state.current_wave == 1
     if args.state.spawn_timer == 5
-      args.state.enemy_fighters += make_enemy_fighters_left
-      args.state.enemy_fighters += make_enemy_fighters_right
+      args.state.sub_wave = rand(2)
+      if args.state.sub_wave == 0
+        args.state.enemy_fighters += make_enemy_fighters_left
+        args.state.enemy_fighters += make_enemy_fighters_right
+        args.state.enemy_fighters += make_enemy_fighters_center
+      end
+      if args.state.sub_wave == 1
+        args.state.enemy_fighters += make_enemy_fighters_left
+        args.state.enemy_fighters += make_enemy_fighters_right
+        args.state.enemy_light_gunship += make_enemy_light_gunship_center
+      end
       args.state.next_wave_condition += 1
       args.state.spawn_timer = 0
     end
@@ -101,9 +110,26 @@ def tick_game_scene args
 
   if args.state.current_wave == 2
     if args.state.spawn_timer == 5
-      args.state.enemy_fighters += make_enemy_fighters_left
-      args.state.enemy_fighters += make_enemy_fighters_right
-      args.state.enemy_light_gunship += make_enemy_light_gunship_center
+      args.state.sub_wave = rand(3)
+      if args.state.sub_wave == 0
+        args.state.enemy_fighters += make_enemy_fighters_left
+        args.state.enemy_fighters += make_enemy_fighters_right
+        args.state.enemy_fighters += make_enemy_fighters_center
+        args.state.enemy_light_gunship += make_enemy_light_gunship_left
+        args.state.enemy_light_gunship += make_enemy_light_gunship_right
+      end
+      if args.state.sub_wave == 1
+        args.state.enemy_fighters += make_enemy_fighters_left
+        args.state.enemy_fighters += make_enemy_fighters_right
+        args.state.enemy_light_gunship += make_enemy_light_gunship_center
+      end
+      if args.state.sub_wave == 2
+        args.state.enemy_fighters += make_enemy_fighters_left
+        args.state.enemy_fighters += make_enemy_fighters_right
+        args.state.enemy_light_gunship += make_enemy_light_gunship_center
+        args.state.enemy_light_gunship += make_enemy_light_gunship_left
+        args.state.enemy_light_gunship += make_enemy_light_gunship_right
+      end
       args.state.next_wave_condition += 1
       args.state.spawn_timer = 0
     end

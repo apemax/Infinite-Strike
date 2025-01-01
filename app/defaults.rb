@@ -17,6 +17,7 @@ def defaults args
   args.state.time_frame ||= 0
   args.state.current_wave ||= 0
   args.state.spawn_timer ||= 0
+  args.state.sub_wave ||= 1
   args.state.next_wave_condition ||= 0
   args.state.debug_enabled ||= false
 end
