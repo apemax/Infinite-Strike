@@ -35,12 +35,13 @@ end
 def tick_title_scene args
   args.outputs.background_color = [0, 0, 0]
   args.outputs.labels << [470, 500, "Infinite Strike", 15, 255, 255, 255, 255]
-  args.outputs.labels << [380, 400, "Press the Enter key to start.", 10, 255, 255, 255, 255]
+  args.outputs.labels << [230, 400, "Press the Enter key or A button to start.", 10, 255, 255, 255, 255]
   args.outputs.labels << [570, 300, "Controls:", 10, 255, 255, 255, 255]
-  args.outputs.labels << [480, 250, "w,a,s,d = Movement.", 10, 255, 255, 255, 255]
-  args.outputs.labels << [540, 200, "Space = Fire.", 10, 255, 255, 255, 255]
+  args.outputs.labels << [260, 250, "w,a,s,d or D-Pad/Left Stick = Movement.", 10, 255, 255, 255, 255]
+  args.outputs.labels << [400, 200, "Space or A button = Fire.", 10, 255, 255, 255, 255]
+  args.outputs.labels << [320, 150, "P key or Start button = Pause game.", 10, 255, 255, 255, 255]
 
-  if args.inputs.keyboard.enter
+  if args.inputs.keyboard.enter or args.inputs.controller_one.a
     args.state.next_scene = :game_scene
   end
 end
@@ -67,7 +68,7 @@ def tick_game_scene args
     args.state.debug_enabled = false
   end
 
-  if args.inputs.keyboard.key_down.p
+  if args.inputs.keyboard.key_down.p or args.inputs.controller_one.key_down.start
     args.state.next_scene = :pause_scene
   end
 
@@ -190,8 +191,8 @@ def tick_game_over_scene args
   args.outputs.labels << [520, 500, "Strike over!", 10, 255, 255, 255, 255]
   args.outputs.labels << [460, 450, "Final time: #{(args.state.time_minutes)}:#{(args.state.time_seconds)}", 10, 255, 255, 255, 255]
   args.outputs.labels << [460, 400, "Final score: #{(args.state.score)}", 10, 255, 255, 255, 255]
-  args.outputs.labels << [320, 350, "Press the Enter key to try again.", 10, 255, 255, 255, 255]
-  if args.inputs.keyboard.enter
+  args.outputs.labels << [200, 350, "Press the Enter key or A button to try again.", 10, 255, 255, 255, 255]
+  if args.inputs.keyboard.enter or args.inputs.controller_one.a
     args.state.next_scene = :game_scene
     args.state.player[:alive] = true
     args.state.explosions.clear
@@ -205,6 +206,7 @@ def tick_game_over_scene args
     args.state.player_bullets_2.clear
     args.state.current_wave = 0
     args.state.next_wave_condition = 0
+    args.state.sub_wave = 1
   end
 end
 
@@ -213,7 +215,7 @@ def tick_pause_scene args
 
   render args
 
-  if args.inputs.keyboard.key_down.p
+  if args.inputs.keyboard.key_down.p or args.inputs.controller_one.key_down.start
     args.state.next_scene = :game_scene
   end
 end
