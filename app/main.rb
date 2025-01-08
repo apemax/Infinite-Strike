@@ -55,6 +55,7 @@ def tick_game_scene args
     args.state.time_frame = 0
     args.state.time_seconds += 1
     args.state.spawn_timer += 1
+    args.state.cloud_timer += 1
 
     if args.state.time_seconds == 60
       args.state.time_seconds = 0
@@ -86,6 +87,7 @@ def tick_game_scene args
     args.state.next_wave_condition = 0
   end
   if args.state.current_wave == 0
+    args.state.clouds += make_initial_clouds
     args.state.enemy_fighters += make_enemy_fighters_left
     args.state.enemy_fighters += make_enemy_fighters_right
     args.state.current_wave = 1
@@ -148,14 +150,15 @@ def tick_game_scene args
   update_enemy_pattern_small args
   update_enemy_pattern_medium args
 
-  if args.state.clouds.empty?
-    args.state.clouds = make_clouds
+  if args.state.cloud_timer == 24
+    args.state.clouds += make_clouds
+    args.state.cloud_timer = 0
   end
 
   args.state.clouds.each do |cloud|
     cloud[:y] -= 0.5
     args.state.clouds = args.state.clouds.reject do |cloud|
-      if cloud[:y] < -64
+      if cloud[:y] < -256
         true
       else
         false
@@ -199,9 +202,11 @@ def tick_game_over_scene args
     args.state.enemy_fighters.clear
     args.state.enemy_light_gunship.clear
     args.state.enemy_bullets.clear
+    args.state.clouds.clear
     args.state.score = 0
     args.state.time_seconds = 0
     args.state.time_minutes = 0
+    args.state.spawn_timer = 0
     args.state.player_bullets_1.clear
     args.state.player_bullets_2.clear
     args.state.current_wave = 0

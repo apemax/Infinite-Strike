@@ -29,10 +29,19 @@ def render args
   args.outputs.sprites << update_exhaust_right(args) if args.state.player[:alive]
 end
 
+def make_initial_clouds
+  clouds = []
+  clouds += 6.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(1440), w: 64, h: 64, path: 'sprites/cloud1.png'} }
+  clouds += 6.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(1440), w: 128, h: 64, path: 'sprites/cloud2.png'} }
+  clouds += 6.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(1440), w: 256, h: 128, path: 'sprites/cloud3.png'} }
+  clouds += 6.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(1440), w: 512, h: 128, path: 'sprites/cloud4.png'} }
+  clouds
+end
+
 def make_clouds
   clouds = []
-  clouds += 6.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 64, h: 64, path: 'sprites/cloud1.png'} }
-  clouds += 6.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 128, h: 64, path: 'sprites/cloud2.png'} }
+  clouds += 3.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 64, h: 64, path: 'sprites/cloud1.png'} }
+  clouds += 3.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 128, h: 64, path: 'sprites/cloud2.png'} }
   clouds += 3.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 256, h: 128, path: 'sprites/cloud3.png'} }
   clouds += 3.times.map { |n| {x: Math.rand(780) + 250, y: Math.rand(720) + 720, w: 512, h: 128, path: 'sprites/cloud4.png'} }
   clouds
