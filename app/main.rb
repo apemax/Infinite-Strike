@@ -176,15 +176,18 @@ def tick_game_scene args
 
   render args
 
-  #Respawn player if player dies.
   if (!args.state.player[:alive]) && args.state.enemy_bullets.empty? && args.state.explosions.empty? && args.state.enemy_fighters.all?
+    args.state.player[:alive] = true
     args.state.player[:x]     = 620
     args.state.player[:y]     = 80
     args.state.player_collision_wing[:x]     = 620
     args.state.player_collision_wing[:y]     = 111
     args.state.player_collision_tail[:x]     = 637
     args.state.player_collision_tail[:y]     = 82
-    args.state.next_scene = :game_over_scene
+    args.state.lives -= 1
+    if args.state.lives == 0
+      args.state.next_scene = :game_over_scene
+    end
   end
 end
 
@@ -204,6 +207,7 @@ def tick_game_over_scene args
     args.state.enemy_bullets.clear
     args.state.clouds.clear
     args.state.score = 0
+    args.state.lives = 3
     args.state.time_seconds = 0
     args.state.time_minutes = 0
     args.state.spawn_timer = 0

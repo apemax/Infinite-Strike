@@ -23,7 +23,11 @@ def render args
     [1280 - 230, 50, "Score:    #{(args.state.score).floor}", 3, 255, 255, 255, 255].label,
     [20, 700, "Time #{args.state.time_minutes}:#{"%02d" % args.state.time_seconds}", 5, 255, 255, 255, 255].label,
     [1280 - 230, 80, "Wave:     #{(args.state.current_wave).floor}", 3, 255, 255, 255, 255].label,
+    [1280 - 230, 150, "Lives: ", 3, 255, 255, 255, 255].label,
   ]
+  args.outputs.primitives << args.state.lives.map do |n|
+    [1280 - 200 + 50 * n, 90, 31.5, 25.5, 'sprites/playerplane1.png'].sprite
+  end
 
   args.outputs.sprites << update_exhaust_left(args) if args.state.player[:alive]
   args.outputs.sprites << update_exhaust_right(args) if args.state.player[:alive]
