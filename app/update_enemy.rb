@@ -46,7 +46,7 @@ end
 
 def update_enemy_fire args
   args.state.enemy_fighters.each do |enemy|
-    if Math.rand < 0.004 + 0.004 && args.state.player[:alive]
+    if Math.rand < 0.002 + 0.002 && args.state.player[:alive]
       args.state.enemy_bullets << {x: enemy[:x] + 12, y: enemy[:y] - 8, w: 6, h: 12, path: 'sprites/enemybullet1.png', dx: 0, dy: -3}.sprite!
     end
   end
